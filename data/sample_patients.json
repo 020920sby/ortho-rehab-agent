@@ -1,0 +1,55 @@
+{
+  "patients": [
+    {
+      "patient_id": "P001",
+      "name": "张建国",
+      "age": 65,
+      "gender": "男",
+      "surgery_type": "TKA",
+      "surgery_date": "2026-04-01",
+      "surgery_side": "右膝",
+      "comorbidities": ["高血压"],
+      "pain_score": 4,
+      "rom": "膝关节屈曲95度，伸展0度",
+      "daily_feedback": "今天走路时膝盖有点酸，但冰敷后好转。没有发热，伤口愈合良好。",
+      "doctor_orders": "术后4周门诊复查，继续口服塞来昔布200mg每日一次。",
+      "pain_trend": "improving",
+      "rom_trend": "稳步改善",
+      "completion_rate": 85
+    },
+    {
+      "patient_id": "P002",
+      "name": "李美华",
+      "age": 58,
+      "gender": "女",
+      "surgery_type": "THA",
+      "surgery_date": "2026-04-10",
+      "surgery_side": "左髋",
+      "comorbidities": ["糖尿病", "骨质疏松"],
+      "pain_score": 3,
+      "rom": "髋关节屈曲75度，外展15度",
+      "daily_feedback": "今天用助行器走了15分钟，感觉髋部力量在恢复。按时吃药，切口干燥。",
+      "doctor_orders": "术后2周拆线，继续低分子肝素至术后14天。",
+      "pain_trend": "improving",
+      "rom_trend": "按预期改善",
+      "completion_rate": 90
+    },
+    {
+      "patient_id": "P003",
+      "name": "王强",
+      "age": 28,
+      "gender": "男",
+      "surgery_type": "ACL",
+      "surgery_date": "2026-03-15",
+      "surgery_side": "右膝",
+      "comorbidities": [],
+      "pain_score": 2,
+      "rom": "膝关节屈曲125度，伸展0度",
+      "daily_feedback": "今天做了单腿平衡训练，感觉稳定性在提升。走路基本正常，没有肿胀。",
+      "doctor_orders": "术后6周复查MRI，继续物理治疗每周2次。",
+      "pain_trend": "stable",
+      "rom_trend": "稳步改善",
+      "completion_rate": 95
+    }
+  ]
+}

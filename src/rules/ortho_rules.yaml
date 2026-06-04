@@ -1,0 +1,175 @@
+# ===========================================
+# 骨科康复安全规则配置
+# ===========================================
+# 修复点：
+# - 原方案 YAML 中 condition 字段是字符串，需在代码中 eval() ，危险且脆弱。
+#   这里改为结构化的 conditions 列表，每个条件包含 field/operator/value，代码直接解析。
+# - 新增 severity 字段，支持分级响应。
+# - 新增 surgical_phase 字段，规则可按康复阶段精准匹配。
+# ===========================================
+
+# ── 紧急关键词（命中任一即为 emergency） ─────────
+emergency_keywords:
+  - 胸痛
+  - 呼吸困难
+  - 咯血
+  - 意识模糊
+  - 伤口大量出血
+  - 高热不退
+  - 小腿剧烈肿痛
+  - 关节弹响后无法承重
+  - 突然不能呼吸
+  - 腹股沟剧痛
+  - 下肢短缩
+  - 动不了
+  - 腿好像短了
+
+# ── 分级预警规则 ──────────────────────────────
+warning_rules:
+  # -- 活动度异常 --
+  - name: "TKA术后活动度停滞"
+    severity: warning
+    surgical_phase: "subacute"
+    conditions:
+      - field: surgery_type
+        operator: equals
+        value: "TKA"
+      - field: days_post_op
+        operator: greater_than
+        value: 42
+      - field: knee_flexion
+        operator: less_than
+        value: 90
+    action: "建议复诊评估关节僵硬原因，考虑强化康复方案"
+    requires_doctor_review: true
+
+  - name: "ACL术后伸展缺失"
+    severity: warning
+    surgical_phase: "early_protection"
+    conditions:
+      - field: surgery_type
+        operator: equals
+        value: "ACL"
+      - field: days_post_op
+        operator: greater_than
+        value: 21
+      - field: extension_deficit
+        operator: greater_than
+        value: 5
+    action: "评估关节纤维化风险，强化被动伸展训练"
+    requires_doctor_review: true
+
+  # -- 疼痛异常 --
+  - name: "疼痛持续加重"
+    severity: warning
+    conditions:
+      - field: pain_trend
+        operator: equals
+        value: "worsening"
+      - field: pain_score
+        operator: greater_than_or_equal
+        value: 7
+    action: "调整多模式镇痛方案，建议24小时内复诊评估"
+    requires_doctor_review: true
+
+  - name: "术后疼痛不减"
+    severity: warning
+    surgical_phase: "recovery"
+    conditions:
+      - field: days_post_op
+        operator: greater_than
+        value: 42
+      - field: pain_score
+        operator: greater_than_or_equal
+        value: 5
+    action: "术后6周以上中重度疼痛，建议影像学评估排除假体松动"
+    requires_doctor_review: true
+
+  # -- 血栓相关 --
+  - name: "疑似DVT"
+    severity: warning
+    conditions:
+      - field: calf_swelling
+        operator: is_true
+        value: null
+      - field: calf_pain
+        operator: is_true
+        value: null
+    action: "建议立即就医行下肢血管超声检查，排除深静脉血栓"
+    requires_doctor_review: true
+
+  - name: "DVT高风险"
+    severity: attention
+    conditions:
+      - field: calf_swelling
+        operator: is_true
+        value: null
+      - field: calf_pain
+        operator: is_false
+        value: null
+    action: "建议监测小腿肿胀变化，如出现疼痛及时就医"
+    requires_doctor_review: false
+
+  # -- 感染相关 --
+  - name: "疑似切口感染"
+    severity: warning
+    conditions:
+      - field: wound_redness
+        operator: is_true
+        value: null
+      - field: fever
+        operator: is_true
+        value: null
+    action: "建议复诊评估切口感染，必要时行血常规+CRP检查"
+    requires_doctor_review: true
+
+  # -- 髋关节脱位风险 --
+  - name: "THA脱位风险"
+    severity: emergency
+    conditions:
+      - field: surgery_type
+        operator: equals
+        value: "THA"
+      - field: acute_onset
+        operator: is_true
+        value: null
+      - field: unable_to_bear_weight
+        operator: is_true
+        value: null
+    action: "疑似假体脱位，立即急诊就医，保持患肢在舒适位置不要移动"
+    requires_doctor_review: true
+
+  # -- ACL再断裂风险 --
+  - name: "ACL移植物再断裂警示"
+    severity: emergency
+    conditions:
+      - field: surgery_type
+        operator: equals
+        value: "ACL"
+      - field: sudden_pop
+        operator: is_true
+        value: null
+      - field: rapid_swelling
+        operator: is_true
+        value: null
+    action: "疑似移植物再断裂，立即就医行MRI检查"
+    requires_doctor_review: true
+
+# ── 康复阶段定义 ──────────────────────────────
+recovery_phases:
+  TKA:
+    - {name: "急性期", range: [0, 14]}
+    - {name: "亚急性期", range: [15, 42]}
+    - {name: "恢复期", range: [43, 90]}
+    - {name: "维持期", range: [91, 999]}
+  THA:
+    - {name: "急性期", range: [0, 14]}
+    - {name: "亚急性期", range: [15, 42]}
+    - {name: "恢复期", range: [43, 90]}
+    - {name: "维持期", range: [91, 999]}
+  ACL:
+    - {name: "急性保护期", range: [0, 14]}
+    - {name: "早期保护性训练期", range: [15, 42]}
+    - {name: "肌力重建期", range: [43, 90]}
+    - {name: "运动准备期", range: [91, 180]}
+    - {name: "回归运动期", range: [181, 999]}

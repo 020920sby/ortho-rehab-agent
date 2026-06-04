@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  # ── FastAPI 后端服务 ──────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ortho-api
+    ports:
+      - "8001:8001"
+    environment:
+      - LLM_BASE_URL=${LLM_BASE_URL:-https://api.baichuan-ai.com/v1}
+      - LLM_MODEL=${LLM_MODEL:-Baichuan4}
+      - LLM_API_KEY=${LLM_API_KEY}
+      - CHROMA_PERSIST_DIR=/data/chroma_db
+      - KNOWLEDGE_GUIDELINES_DIR=/app/knowledge/guidelines
+      - KNOWLEDGE_SCALES_DIR=/app/knowledge/scales
+    volumes:
+      - ./knowledge:/app/knowledge:ro
+      - chroma_data:/data/chroma_db
+      - patient_data:/app/data
+    restart: unless-stopped
+
+  # ── React 前端 (Nginx) ────────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: ortho-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
+  patient_data:

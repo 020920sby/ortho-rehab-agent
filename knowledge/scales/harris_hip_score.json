@@ -1,0 +1,33 @@
+{
+  "scale_name": "Harris髋关节评分",
+  "scale_id": "HHS",
+  "version": "1.0",
+  "description": "Harris髋关节评分（Harris Hip Score, HHS）是评估髋关节置换术后功能状态的金标准之一。涵盖疼痛（44分）、功能（47分）、活动度（5分）和畸形（4分）四个维度，总分100分。",
+  "scoring_system": {
+    "total_range": "0-100分",
+    "0": "最差功能",
+    "100": "最佳功能"
+  },
+  "subscales": {
+    "pain": {"max_score": 44, "description": "疼痛程度和频率"},
+    "function": {"max_score": 47, "description": "日常活动能力（上下楼梯、坐、穿鞋袜、乘坐公共交通等）"},
+    "range_of_motion": {"max_score": 5, "description": "髋关节活动度总和"},
+    "deformity": {"max_score": 4, "description": "关节畸形程度"}
+  },
+  "interpretation": {
+    "90-100": {"level": "优秀", "description": "无疼痛或偶有轻微不适，功能正常"},
+    "80-89": {"level": "良好", "description": "轻度疼痛，功能轻度受限，不影响日常活动"},
+    "70-79": {"level": "中等", "description": "中度疼痛，部分日常活动受限，偶尔使用镇痛药"},
+    "60-69": {"level": "较差", "description": "明显疼痛和功能受限，需要使用辅助器具"},
+    "0-59": {"level": "差", "description": "严重疼痛和功能障碍，严重影响生活质量"}
+  },
+  "clinical_action": {
+    "90-100": "常规年度随访",
+    "80-89": "维持康复方案，关注疼痛趋势",
+    "70-79": "加强康复训练，评估疼痛原因",
+    "60-69": "全面评估（影像学+化验），调整治疗方案",
+    "0-59": "多学科会诊，考虑翻修手术"
+  },
+  "assessment_frequency": "术后6周、3个月、6个月、1年，之后每年一次",
+  "minimal_clinically_important_difference": "10分"
+}

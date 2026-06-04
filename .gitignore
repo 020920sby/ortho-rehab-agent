@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Environment
+.env
+.env.local
+
+# Vector DB
+chroma_db/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Models
+*.bin
+*.pt
+*.onnx
+Baichuan-M2-32B-GPTQ-Int4/
+
+# Logs
+*.log
+logs/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Frontend
+node_modules/
+src/frontend/.vite/
+
+# Database files (keep samples)
+data/*.db
+data/*.sqlite3
+
+# Claude Code local settings
+.claude/
+
+# pytest cache
+.pytest_cache/
+
+# Docker
+.docker/

@@ -1,0 +1,46 @@
+# ===========================================
+# 骨科康复智能体 - Python依赖
+# ===========================================
+
+# LLM编排框架
+langgraph>=0.2.0
+langchain>=0.3.0
+langchain-community>=0.3.0
+
+# API服务
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+
+# 前端
+streamlit>=1.38.0
+
+# 向量数据库
+chromadb>=0.5.0
+
+# 文档解析（医嘱上传）
+PyPDF2>=3.0.0
+python-docx>=1.0.0
+Pillow>=10.0.0
+# pytesseract  # 可选: 图片OCR需要，同时需要 brew install tesseract tesseract-lang
+
+# OpenAI兼容API客户端
+openai>=1.50.0
+
+# 本地模型管理
+ollama>=0.4.0
+
+# 数据验证
+pydantic>=2.9.0
+
+# 配置解析
+pyyaml>=6.0.2
+
+# 环境变量
+python-dotenv>=1.0.0
+
+# 可观测性 (可选)
+langfuse>=2.50.0
+
+# 工具库
+httpx>=0.27.0
+tenacity>=8.0.0
